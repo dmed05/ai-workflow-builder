@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Markdown Preview</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --text: #1e242b;
+      --muted: #66717f;
+      --border: #d8dee6;
+      --accent: #2167d2;
+      --code-bg: #eef2f7;
+      --shadow: 0 12px 32px rgba(31, 41, 55, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border);
+      background: var(--panel);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.2;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    button {
+      min-height: 36px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--panel);
+      color: var(--text);
+      cursor: pointer;
+      font: inherit;
+      padding: 0 12px;
+    }
+
+    button.primary {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    button:hover {
+      filter: brightness(0.97);
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: minmax(280px, 1fr) minmax(280px, 1fr);
+      gap: 18px;
+      padding: 18px;
+      height: calc(100vh - 73px);
+    }
+
+    section {
+      display: flex;
+      min-height: 0;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-header h2 {
+      margin: 0;
+      font-size: 14px;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    textarea {
+      width: 100%;
+      flex: 1;
+      resize: none;
+      border: 0;
+      outline: 0;
+      padding: 16px;
+      color: var(--text);
+      font: 14px/1.5 Consolas, Monaco, "Courier New", monospace;
+    }
+
+    #preview {
+      flex: 1;
+      overflow: auto;
+      padding: 18px 22px 48px;
+      line-height: 1.55;
+    }
+
+    #preview > :first-child {
+      margin-top: 0;
+    }
+
+    #preview h1,
+    #preview h2,
+    #preview h3,
+    #preview h4,
+    #preview h5,
+    #preview h6 {
+      line-height: 1.25;
+      margin: 1.25em 0 0.45em;
+    }
+
+    #preview h1 {
+      padding-bottom: 0.25em;
+      border-bottom: 1px solid var(--border);
+      font-size: 30px;
+    }
+
+    #preview h2 {
+      padding-bottom: 0.2em;
+      border-bottom: 1px solid var(--border);
+      font-size: 24px;
+    }
+
+    #preview h3 {
+      font-size: 19px;
+    }
+
+    #preview p,
+    #preview ul,
+    #preview ol,
+    #preview blockquote,
+    #preview pre,
+    #preview table {
+      margin: 0.75em 0;
+    }
+
+    #preview ul,
+    #preview ol {
+      padding-left: 1.5em;
+    }
+
+    #preview blockquote {
+      border-left: 4px solid var(--border);
+      color: var(--muted);
+      padding-left: 14px;
+    }
+
+    #preview code {
+      border-radius: 4px;
+      background: var(--code-bg);
+      font: 0.92em Consolas, Monaco, "Courier New", monospace;
+      padding: 0.15em 0.35em;
+    }
+
+    #preview pre {
+      overflow: auto;
+      border-radius: 6px;
+      background: var(--code-bg);
+      padding: 14px;
+    }
+
+    #preview pre code {
+      background: transparent;
+      padding: 0;
+    }
+
+    #preview a {
+      color: var(--accent);
+    }
+
+    #preview hr {
+      border: 0;
+      border-top: 1px solid var(--border);
+      margin: 1.5em 0;
+    }
+
+    #preview table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: auto;
+      display: block;
+    }
+
+    #preview th,
+    #preview td {
+      border: 1px solid var(--border);
+      padding: 7px 9px;
+      text-align: left;
+    }
+
+    #preview th {
+      background: #f1f4f8;
+    }
+
+    @media (max-width: 860px) {
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      main {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+
+      section {
+        min-height: 46vh;
+      }
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+      }
+
+      header,
+      main section:first-child,
+      .section-header {
+        display: none;
+      }
+
+      main {
+        display: block;
+        height: auto;
+        padding: 0;
+      }
+
+      section {
+        border: 0;
+        box-shadow: none;
+      }
+
+      #preview {
+        overflow: visible;
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Markdown Preview</h1>
+      <div class="hint">Paste Markdown on the left. The preview updates automatically.</div>
+    </div>
+    <div class="actions">
+      <button id="sampleButton" type="button">Load Sample</button>
+      <button id="clearButton" type="button">Clear</button>
+      <button id="printButton" class="primary" type="button">Print / Save PDF</button>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <div class="section-header">
+        <h2>Markdown</h2>
+        <span id="stats" class="hint">0 words</span>
+      </div>
+      <textarea id="markdownInput" spellcheck="false" placeholder="Paste your .md content here..."></textarea>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <h2>Preview</h2>
+        <span class="hint">Live</span>
+      </div>
+      <article id="preview"></article>
+    </section>
+  </main>
+
+  <script>
+    const input = document.getElementById('markdownInput');
+    const preview = document.getElementById('preview');
+    const stats = document.getElementById('stats');
+    const clearButton = document.getElementById('clearButton');
+    const sampleButton = document.getElementById('sampleButton');
+    const printButton = document.getElementById('printButton');
+
+    const sampleMarkdown = `# Markdown Preview
+
+Paste any Markdown file content into the left pane.
+
+## Supported Basics
+
+- Headings
+- Bold and italic text
+- Links
+- Lists
+- Blockquotes
+- Code blocks
+- Simple tables
+
+> This file runs locally by double-clicking it.
+
+\`\`\`text
+No server required.
+\`\`\`
+`;
+
+    function escapeHtml(value) {
+      return value
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function inlineMarkdown(value) {
+      let html = escapeHtml(value);
+      html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+      html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+      html = html.replace(/__([^_]+)__/g, '<strong>$1</strong>');
+      html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+      html = html.replace(/_([^_]+)_/g, '<em>$1</em>');
+      html = html.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+      return html;
+    }
+
+    function isTableSeparator(line) {
+      return /^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$/.test(line);
+    }
+
+    function parseTable(lines, startIndex) {
+      const rows = [];
+      let index = startIndex;
+
+      while (index < lines.length && lines[index].includes('|') && lines[index].trim()) {
+        rows.push(lines[index]);
+        index += 1;
+      }
+
+      if (rows.length < 2 || !isTableSeparator(rows[1])) {
+        return null;
+      }
+
+      const cells = (row) => row
+        .trim()
+        .replace(/^\|/, '')
+        .replace(/\|$/, '')
+        .split('|')
+        .map((cell) => inlineMarkdown(cell.trim()));
+
+      const headerCells = cells(rows[0]).map((cell) => `<th>${cell}</th>`).join('');
+      const bodyRows = rows.slice(2)
+        .map((row) => `<tr>${cells(row).map((cell) => `<td>${cell}</td>`).join('')}</tr>`)
+        .join('');
+
+      return {
+        html: `<table><thead><tr>${headerCells}</tr></thead><tbody>${bodyRows}</tbody></table>`,
+        nextIndex: index
+      };
+    }
+
+    function closeLists(state, html, targetIndent = -1) {
+      while (state.lists.length && state.lists[state.lists.length - 1].indent >= targetIndent) {
+        html.push(`</${state.lists.pop().type}>`);
+      }
+    }
+
+    function markdownToHtml(markdown) {
+      const lines = markdown.replace(/\r\n/g, '\n').split('\n');
+      const html = [];
+      const state = {
+        inCode: false,
+        codeLines: [],
+        lists: []
+      };
+
+      for (let index = 0; index < lines.length; index += 1) {
+        const line = lines[index];
+        const trimmed = line.trim();
+
+        if (trimmed.startsWith('```')) {
+          if (state.inCode) {
+            html.push(`<pre><code>${escapeHtml(state.codeLines.join('\n'))}</code></pre>`);
+            state.inCode = false;
+            state.codeLines = [];
+          } else {
+            closeLists(state, html);
+            state.inCode = true;
+          }
+          continue;
+        }
+
+        if (state.inCode) {
+          state.codeLines.push(line);
+          continue;
+        }
+
+        const table = parseTable(lines, index);
+        if (table) {
+          closeLists(state, html);
+          html.push(table.html);
+          index = table.nextIndex - 1;
+          continue;
+        }
+
+        if (!trimmed) {
+          closeLists(state, html);
+          continue;
+        }
+
+        if (/^---+$/.test(trimmed) || /^\*\*\*+$/.test(trimmed)) {
+          closeLists(state, html);
+          html.push('<hr>');
+          continue;
+        }
+
+        const heading = trimmed.match(/^(#{1,6})\s+(.+)$/);
+        if (heading) {
+          closeLists(state, html);
+          const level = heading[1].length;
+          html.push(`<h${level}>${inlineMarkdown(heading[2])}</h${level}>`);
+          continue;
+        }
+
+        if (trimmed.startsWith('>')) {
+          closeLists(state, html);
+          html.push(`<blockquote>${inlineMarkdown(trimmed.replace(/^>\s?/, ''))}</blockquote>`);
+          continue;
+        }
+
+        const listItem = line.match(/^(\s*)([-*+]|\d+\.)\s+(.+)$/);
+        if (listItem) {
+          const indent = listItem[1].length;
+          const type = /\d+\./.test(listItem[2]) ? 'ol' : 'ul';
+
+          while (state.lists.length && state.lists[state.lists.length - 1].indent > indent) {
+            html.push(`</${state.lists.pop().type}>`);
+          }
+
+          const current = state.lists[state.lists.length - 1];
+          if (!current || current.indent < indent || current.type !== type) {
+            html.push(`<${type}>`);
+            state.lists.push({ indent, type });
+          }
+
+          html.push(`<li>${inlineMarkdown(listItem[3])}</li>`);
+          continue;
+        }
+
+        closeLists(state, html);
+        html.push(`<p>${inlineMarkdown(trimmed)}</p>`);
+      }
+
+      if (state.inCode) {
+        html.push(`<pre><code>${escapeHtml(state.codeLines.join('\n'))}</code></pre>`);
+      }
+
+      closeLists(state, html);
+      return html.join('\n');
+    }
+
+    function updatePreview() {
+      const markdown = input.value;
+      preview.innerHTML = markdown ? markdownToHtml(markdown) : '<p class="hint">Preview will appear here.</p>';
+
+      const words = markdown.trim() ? markdown.trim().split(/\s+/).length : 0;
+      stats.textContent = `${words} ${words === 1 ? 'word' : 'words'}`;
+      localStorage.setItem('markdown-preview-content', markdown);
+    }
+
+    input.addEventListener('input', updatePreview);
+
+    clearButton.addEventListener('click', () => {
+      input.value = '';
+      updatePreview();
+      input.focus();
+    });
+
+    sampleButton.addEventListener('click', () => {
+      input.value = sampleMarkdown;
+      updatePreview();
+      input.focus();
+    });
+
+    printButton.addEventListener('click', () => {
+      window.print();
+    });
+
+    input.value = localStorage.getItem('markdown-preview-content') || '';
+    updatePreview();
+  </script>
+</body>
+</html>

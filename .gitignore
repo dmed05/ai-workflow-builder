@@ -1,0 +1,32 @@
+# Private customer/account material
+accounts/
+**/accounts/
+private/
+**/private/
+
+# Customer documents and media
+*.pdf
+*.docx
+*.xlsx
+*.xls
+*.csv
+*.eml
+*.msg
+*.jpg
+*.jpeg
+*.png
+*.heic
+*.mp4
+*.mov
+*.zip
+*.tar.gz
+*.tgz
+
+# Private working schedule/status notes
+KEY_FINDINGS_SUMMARY.md
+SCHEDULING_ACTIONS.md
+FOLLOW_UP_ACTION_ITEMS.md
+
+# OS/editor noise
+.DS_Store
+.vscode/
