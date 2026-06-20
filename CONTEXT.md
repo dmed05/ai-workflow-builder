@@ -2,7 +2,8 @@
 
 ## What This Workspace Is
 
-This is a GitHub-safe Builder Development Workflow workspace. It helps create portable Skool-style AI-agent workflow projects without publishing private customer data.
+This is a GitHub-safe AI Workflow Builder workspace. It creates portable
+AI-agent workflow projects without publishing private or production data.
 
 ## Routing Rules
 

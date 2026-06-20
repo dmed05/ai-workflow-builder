@@ -3,6 +3,22 @@ accounts/
 **/accounts/
 private/
 **/private/
+production/
+**/production/
+exports/
+**/exports/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*service-account*.json
+credentials.json
+secrets.*
 
 # Customer documents and media
 *.pdf
@@ -30,3 +46,7 @@ FOLLOW_UP_ACTION_ITEMS.md
 # OS/editor noise
 .DS_Store
 .vscode/
+.idea/
+*.log
+__pycache__/
+*.pyc

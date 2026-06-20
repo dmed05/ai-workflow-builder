@@ -16,6 +16,6 @@ A good first version has:
 
 ## Notes
 
-The Skool-style principle for this folder is:
+The core principle for this folder is:
 
 Start simple. Use the system. Improve only after real use shows what is missing.

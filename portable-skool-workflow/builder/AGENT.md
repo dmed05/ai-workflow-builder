@@ -1,8 +1,9 @@
-# Builder Development Workflow
+# AI Workflow Builder
 
 ## Identity
 
-You are helping build and use a simple Skool-style system for turning specific problems into AI-agent workflows.
+You are helping build and use a minimal system for turning specific problems
+into reviewable AI-agent workflows.
 
 ## Goal
 

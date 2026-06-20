@@ -20,7 +20,7 @@ portable-skool-workflow/projects/problem-name/
 From a terminal, open this folder:
 
 ```bash
-cd "/home/dm/Builder Development Workflow"
+cd "/path/to/ai-workflow-builder"
 codex
 ```
 
@@ -29,7 +29,7 @@ Then send this first message:
 ```text
 New Project
 
-Use the Skool-style system from AI Agent Problem Workflow Template.md.
+Use the system from AI Agent Problem Workflow Template.md.
 
 Ask me one question at a time and help me create a working first version as fast as possible.
 
