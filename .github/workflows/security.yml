@@ -19,4 +19,4 @@ jobs:
       - name: Run repository publication policy
         run: bash scripts/security-check.sh
       - name: Scan Git history for secrets
-        uses: gitleaks/gitleaks-action@v2
+        uses: gitleaks/gitleaks-action@v3
