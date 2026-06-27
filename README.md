@@ -27,6 +27,41 @@ dry run with synthetic inputs
 human review and one measured revision
 ```
 
+## What I Built
+
+I built a guided framework for converting a real business problem into a small,
+portable AI-agent workspace. The framework includes a structured discovery
+template, the three-file workflow contract, routing instructions, reusable
+examples, security checks, and a repeatable dry-run and revision process.
+
+The included synthetic projects demonstrate how the same framework can support
+different operational problems without mixing their rules or source material.
+
+## How It Supports My Operations
+
+I use this framework to move from an informal process idea to a reviewable AI
+workflow with clear boundaries. It helps me:
+
+- define the operational problem before choosing tools;
+- separate agent behavior, process context, and approved references;
+- expose missing information and approval requirements early;
+- test workflows with synthetic inputs before operational use;
+- preserve a consistent structure across different projects; and
+- publish reusable patterns without publishing production records.
+
+The result is a faster, more disciplined way to prototype AI-assisted
+operations while keeping humans responsible for consequential actions.
+
+## My Role and Design Decisions
+
+I designed the three-file contract, project-creation questionnaire, routing
+conventions, human-review gates, synthetic examples, and public-repository
+security policy.
+
+The central design decision was to keep the initial framework deliberately
+small. New tools or automation are added only when a repeated workflow failure
+justifies the additional complexity.
+
 ## Structure
 
 ```text
